@@ -3,7 +3,6 @@ import React from 'react';
 import { FileNode, formatFileSize } from '@/utils/fileUtils';
 import { File, Folder, ChevronRight, ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { FileTree } from './FileTree'; // Import the FileTree component
 
 interface FileItemProps {
   node: FileNode;
@@ -99,14 +98,18 @@ const FileItem: React.FC<FileItemProps> = ({
       
       {expanded && hasChildren && (
         <div className="tree-children">
-          {children?.map((child, index) => (
-            <FileTree
-              key={child.id}
-              node={child}
-              depth={depth + 1}
-              isLast={index === children.length - 1}
-            />
-          ))}
+          {children?.map((child, index) => {
+            // Import FileTree dynamically to avoid circular dependencies
+            const { FileTree } = require('./FileTree');
+            return (
+              <FileTree
+                key={child.id}
+                node={child}
+                depth={depth + 1}
+                isLast={index === children.length - 1}
+              />
+            );
+          })}
         </div>
       )}
     </div>

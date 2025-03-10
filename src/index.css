@@ -73,15 +73,15 @@
   }
 
   .tree-container {
-    @apply rounded-md border border-border bg-card p-4;
+    @apply rounded-md border border-border bg-card p-4 text-left;
   }
 
   .tree-node {
-    @apply py-1 pl-2 pr-1 rounded-md hover:bg-secondary/50 transition-all duration-200;
+    @apply py-1 pl-2 pr-1 rounded-md hover:bg-secondary/50 transition-all duration-200 text-left;
   }
 
   .tree-node-content {
-    @apply flex items-center gap-2;
+    @apply flex items-center gap-2 text-left;
   }
 
   .file-icon {
@@ -89,7 +89,7 @@
   }
 
   .file-name {
-    @apply truncate flex-grow text-sm font-medium;
+    @apply truncate flex-grow text-sm font-medium text-left;
   }
 
   .file-meta {
@@ -97,7 +97,7 @@
   }
 
   .tree-children {
-    @apply pl-5 border-l border-border/50 ml-2.5 animate-fade-in;
+    @apply pl-5 border-l border-border/50 ml-2.5 animate-fade-in text-left;
   }
 }
 

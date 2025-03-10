@@ -41,7 +41,7 @@ const Index = () => {
   return (
     <MainLayout onSearch={handleSearch}>
       <div className="space-y-6 animate-fade-in">
-        <section className="text-center max-w-3xl mx-auto mb-8">
+        <section className="text-left max-w-3xl mx-auto mb-8">
           <h1 className="text-3xl font-bold mb-2 tracking-tight">Drive Map Explorer</h1>
           <p className="text-muted-foreground">
             Select a drive to visualize your file system structure
@@ -64,7 +64,7 @@ const Index = () => {
         ) : (
           <div className="animate-fade-in">
             {searchQuery && fileTree && (
-              <div className="mb-4 text-sm">
+              <div className="mb-4 text-sm text-left">
                 <span className="font-medium">Search results for:</span>{" "}
                 <span className="text-primary">{searchQuery}</span>
               </div>
