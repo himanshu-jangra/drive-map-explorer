@@ -14,6 +14,7 @@ interface FileTreeProps {
   searchQuery?: string;
 }
 
+// Main FileTree component for rendering individual nodes
 export const FileTree: React.FC<FileTreeProps> = ({
   node,
   depth = 0,
@@ -24,7 +25,6 @@ export const FileTree: React.FC<FileTreeProps> = ({
   const [expanded, setExpanded] = useState(expandAll || depth < 1);
   
   useEffect(() => {
-    // Auto expand if we're searching and this is a parent with matching children
     if (searchQuery && node.type === 'folder') {
       setExpanded(true);
     }
@@ -36,6 +36,8 @@ export const FileTree: React.FC<FileTreeProps> = ({
 
   const isSearchResult = searchQuery && node.name.toLowerCase().includes(searchQuery.toLowerCase());
 
+  if (!node) return null;
+
   return (
     <FileItem
       node={node}
@@ -44,10 +46,20 @@ export const FileTree: React.FC<FileTreeProps> = ({
       depth={depth}
       isLast={isLast}
       isSearchResult={isSearchResult}
+      renderChildren={(childNode: FileNode, index: number) => (
+        <FileTree
+          key={childNode.id}
+          node={childNode}
+          depth={depth + 1}
+          isLast={index === (node.children?.length || 0) - 1}
+          searchQuery={searchQuery}
+        />
+      )}
     />
   );
 };
 
+// Utility function for generating text content
 const generateTextFileContent = (node: FileNode, depth = 0, isLast = true): string => {
   const indent = '  '.repeat(depth);
   const prefix = depth > 0 ? (isLast ? '└─ ' : '├─ ') : '';
@@ -63,6 +75,7 @@ const generateTextFileContent = (node: FileNode, depth = 0, isLast = true): stri
   return content;
 };
 
+// Function to handle file download
 const downloadFileStructure = (node: FileNode) => {
   if (!node) return;
   
@@ -91,7 +104,7 @@ const FileTreeContainer: React.FC<FileTreeContainerProps> = ({
 }) => {
   if (!root) {
     return (
-      <div className="tree-container flex items-center justify-center p-8">
+      <div className="tree-container flex items-center justify-center p-8 text-left">
         <p className="text-muted-foreground">Select a drive to view its file structure</p>
       </div>
     );
@@ -100,7 +113,7 @@ const FileTreeContainer: React.FC<FileTreeContainerProps> = ({
   return (
     <div className="flex flex-col gap-4">
       <div className="flex justify-between items-center">
-        <h2 className="text-lg font-medium">File Structure</h2>
+        <h2 className="text-lg font-medium text-left">File Structure</h2>
         <Button 
           variant="outline" 
           size="sm" 
@@ -110,7 +123,7 @@ const FileTreeContainer: React.FC<FileTreeContainerProps> = ({
           <Download className="h-4 w-4" /> Download Structure
         </Button>
       </div>
-      <div className={cn("tree-container overflow-auto max-h-[70vh] text-left", className)}>
+      <div className={cn("tree-container overflow-auto max-h-[70vh]", className)}>
         <FileTree node={root} searchQuery={searchQuery} />
       </div>
     </div>
