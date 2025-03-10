@@ -1,69 +1,91 @@
-# Welcome to your Lovable project
 
-## Project info
+# Drive Map Explorer
 
-**URL**: https://lovable.dev/projects/be5ca772-4300-4267-a874-fb2b745a48ce
+![Drive Map Explorer](https://github.com/username/drive-map-explorer/raw/main/public/og-image.png)
 
-## How can I edit this code?
+A lightweight, interactive file system visualization tool that helps you explore and understand your drive structure.
 
-There are several ways of editing your application.
+## Features
 
-**Use Lovable**
+- **Drive Selection**: Choose from available drives to explore
+- **Interactive File Tree**: Expandable/collapsible folders for easy navigation
+- **File Size Information**: View file sizes in human-readable format
+- **Search Functionality**: Quickly find files and folders across your drive
+- **Structure Export**: Download your file system structure as a text document
+- **Responsive Design**: Works on desktop and mobile devices
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/be5ca772-4300-4267-a874-fb2b745a48ce) and start prompting.
+## Demo
 
-Changes made via Lovable will be committed automatically to this repo.
+This is a demo application that uses mock data to simulate file system exploration. In a production environment, this would connect to real file system APIs.
 
-**Use your preferred IDE**
+## Installation
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+```bash
+# Clone the repository
+git clone https://github.com/your-username/drive-map-explorer.git
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+# Navigate to the project directory
+cd drive-map-explorer
 
-Follow these steps:
+# Install dependencies
+npm install
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start the development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## Usage
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+1. **Select a Drive**: Click on one of the available drives to start exploring
+2. **Navigate the File Tree**: 
+   - Click the arrows to expand/collapse folders
+   - Hover over items to see additional details
+3. **Search for Files**: Use the search box in the header to find specific files or folders
+4. **Export File Structure**: Click the "Download Structure" button to save the current file structure as a text file
 
-**Use GitHub Codespaces**
+## Implementation Details
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+The app is built with:
 
-## What technologies are used for this project?
+- **React** for UI components
+- **TypeScript** for type safety
+- **Tailwind CSS** for styling
+- **Shadcn UI** for component library
+- **Vite** as the build tool
 
-This project is built with .
+## Project Structure
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+```
+src/
+├── components/
+│   ├── drive/       # Drive selection components
+│   ├── file/        # File tree visualization components
+│   ├── layout/      # Layout components like header and main layout
+│   └── ui/          # UI components like buttons, search bars, etc.
+├── hooks/           # Custom React hooks
+├── pages/           # Page components
+└── utils/           # Utility functions
+```
 
-## How can I deploy this project?
+## Current Limitations
 
-Simply open [Lovable](https://lovable.dev/projects/be5ca772-4300-4267-a874-fb2b745a48ce) and click on Share -> Publish.
+This is a demo application that uses mock data to simulate file system exploration. It does not actually access your file system. In a real implementation, the following would need to be addressed:
 
-## I want to use a custom domain - is that possible?
+- File system access permissions
+- Integration with system APIs
+- Performance optimization for large file structures
+- Implementation of actual file operations (view, edit, delete, etc.)
 
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+## License
+
+[MIT](LICENSE)
+
+## Contributing
+
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/your-username/drive-map-explorer/issues).
+
+## Acknowledgements
+
+- [Lucide Icons](https://lucide.dev/) for beautiful icon set
+- [Tailwind CSS](https://tailwindcss.com/) for utility-first CSS
+- [Shadcn UI](https://ui.shadcn.com/) for accessible UI components
