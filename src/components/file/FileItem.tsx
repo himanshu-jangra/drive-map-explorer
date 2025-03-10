@@ -3,6 +3,7 @@ import React from 'react';
 import { FileNode, formatFileSize } from '@/utils/fileUtils';
 import { File, Folder, ChevronRight, ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { FileTree } from './FileTree'; // Import the FileTree component
 
 interface FileItemProps {
   node: FileNode;
