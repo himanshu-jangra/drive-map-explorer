@@ -1,4 +1,3 @@
-
 export type FileType = 'file' | 'folder';
 
 export interface FileNode {
@@ -9,6 +8,7 @@ export interface FileNode {
   format?: string;
   children?: FileNode[];
   path: string;
+  handle?: FileSystemHandle; // Added for real file system access
 }
 
 // Format bytes to human-readable size
@@ -33,7 +33,81 @@ export function getFileExtension(filename: string): string {
   return parts.length > 1 ? parts.pop()?.toLowerCase() || '' : '';
 }
 
-// Mock function to simulate file system scanning
+// Check if the File System Access API is available
+export function isFileSystemAccessSupported(): boolean {
+  return 'showDirectoryPicker' in window;
+}
+
+// Scan a real directory from user's file system
+export async function scanRealDirectory(directoryHandle: FileSystemDirectoryHandle, path = ''): Promise<FileNode> {
+  const node: FileNode = {
+    id: path || directoryHandle.name,
+    name: directoryHandle.name,
+    type: 'folder',
+    path: path || directoryHandle.name,
+    handle: directoryHandle,
+    children: []
+  };
+
+  const entries = [];
+  try {
+    for await (const entry of directoryHandle.values()) {
+      entries.push(entry);
+    }
+  } catch (error) {
+    console.error("Error reading directory contents:", error);
+    return node;
+  }
+
+  const childPromises = entries.map(async (entry) => {
+    const childPath = path ? `${path}/${entry.name}` : entry.name;
+    
+    if (entry.kind === 'directory') {
+      try {
+        return await scanRealDirectory(entry as FileSystemDirectoryHandle, childPath);
+      } catch (error) {
+        console.error(`Error scanning subdirectory ${entry.name}:`, error);
+        return {
+          id: childPath,
+          name: entry.name,
+          type: 'folder',
+          path: childPath,
+          handle: entry,
+          children: []
+        };
+      }
+    } else {
+      try {
+        const fileHandle = entry as FileSystemFileHandle;
+        const file = await fileHandle.getFile();
+        
+        return {
+          id: childPath,
+          name: entry.name,
+          type: 'file',
+          size: file.size,
+          format: getFileExtension(entry.name),
+          path: childPath,
+          handle: entry
+        };
+      } catch (error) {
+        console.error(`Error processing file ${entry.name}:`, error);
+        return {
+          id: childPath,
+          name: entry.name,
+          type: 'file',
+          path: childPath,
+          handle: entry
+        };
+      }
+    }
+  });
+
+  node.children = await Promise.all(childPromises);
+  return node;
+}
+
+// Mock function to simulate file system scanning (keep for fallback)
 export function mockScanDrive(driveName: string): FileNode {
   // Root node representing the drive
   const root: FileNode = {
